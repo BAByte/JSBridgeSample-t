@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?><!--  8倍数原则
+ldpi	120dpi	0.75 240*320px
+mdpi	160dpi	1	320*480px
+hdpi	240dpi	1.5	480*800px
+xhdpi	320dpi	2	720*1280px
+xxhdpi	480dpi	3	1080*1920px
+-->
+<resources>
+    <dimen name="size_1a">8dp</dimen>
+    <dimen name="size_2a">16dp</dimen>
+    <dimen name="size_3a">24dp</dimen>
+    <dimen name="size_4a">32dp</dimen>
+    <dimen name="size_5a">40dp</dimen>
+    <dimen name="size_6a">48dp</dimen>
+    <dimen name="size_7a">56dp</dimen>
+    <dimen name="size_8a">64dp</dimen>
+    <dimen name="size_9a">72dp</dimen>
+    <dimen name="size_10a">80dp</dimen>
+    <dimen name="size_11a">88dp</dimen>
+    <dimen name="size_12a">96dp</dimen>
+    <dimen name="size_13a">104dp</dimen>
+    <dimen name="size_16a">128dp</dimen>
+    <dimen name="size_18a">144dp</dimen>
+    <dimen name="size_20a">160dp</dimen>
+    <dimen name="size_30a">240dp</dimen>
+    <dimen name="size_40a">320dp</dimen>
+    <dimen name="size_46a">368dp</dimen>
+    <dimen name="size_54a">432dp</dimen>
+    <dimen name="size_60a">480dp</dimen>
+    <dimen name="size_remote_view_h">1080dp</dimen>
+    <dimen name="size_nav_bottom_h">120dp</dimen>
+    <dimen name="size_selector_r_2">3dp</dimen>
+    <dimen name="size_device_name_mw">550dp</dimen>
+
+    <dimen name="text_2a">16sp</dimen>
+    <dimen name="text_3a">24sp</dimen>
+    <dimen name="text_4a">32sp</dimen>
+</resources>

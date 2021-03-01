@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="remote_nav_bar_bg">#101321</color>
+    <color name="remote_nav_bar_text">#D9FFFFFF</color>
+    <color name="remote_nav_bar_text_press">#73FFFFFF</color>
+    <color name="color_bg">#1A2039</color>
+</resources>

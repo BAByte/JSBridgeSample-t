@@ -1,0 +1,30 @@
+<resources>
+	<dimen name="size_9a">48dp</dimen>
+	<dimen name="size_7a">37.3dp</dimen>
+	<dimen name="size_2a">10.7dp</dimen>
+	<dimen name="size_4a">21.3dp</dimen>
+	<dimen name="size_6a">32dp</dimen>
+	<dimen name="size_60a">320dp</dimen>
+	<dimen name="size_40a">213.3dp</dimen>
+	<dimen name="size_selector_r_2">2dp</dimen>
+	<dimen name="size_30a">160dp</dimen>
+	<dimen name="size_20a">106.7dp</dimen>
+	<dimen name="size_device_name_mw">366.7dp</dimen>
+	<dimen name="size_10a">53.3dp</dimen>
+	<dimen name="size_54a">288dp</dimen>
+	<dimen name="size_12a">64dp</dimen>
+	<dimen name="size_46a">245.3dp</dimen>
+	<dimen name="size_16a">85.3dp</dimen>
+	<dimen name="size_18a">96dp</dimen>
+	<dimen name="size_8a">42.7dp</dimen>
+	<dimen name="size_1a">5.3dp</dimen>
+	<dimen name="size_nav_bottom_h">80dp</dimen>
+	<dimen name="size_3a">16dp</dimen>
+	<dimen name="size_remote_view_h">720dp</dimen>
+	<dimen name="size_5a">26.7dp</dimen>
+	<dimen name="size_11a">58.7dp</dimen>
+	<dimen name="size_13a">69.3dp</dimen>
+	<dimen name="text_4a">21.3sp</dimen>
+	<dimen name="text_2a">10.7sp</dimen>
+	<dimen name="text_3a">16sp</dimen>
+</resources>
