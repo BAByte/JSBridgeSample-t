@@ -42,7 +42,7 @@
 
 **JSBridge Demo 项目地址：**
 
-**Andoird :[JSBridgeSample](https://gitlab.gz.cvte.cn/lijiahao8350/JSBridgeSample)**
+**Andoird :[JSBridgeSample](https://github.com/BAByte/JSBridgeSample-t)**
 
 **WEB:预留**
 
