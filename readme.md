@@ -22,7 +22,7 @@
 
 # 方案架构
 
-[设计方案](https://github.com/BAByte/MVVMDemo)
+[架构方案](https://github.com/BAByte/MVVMDemo)
 
 # JS与Android Native通信方案
 
