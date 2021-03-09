@@ -91,7 +91,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         binding.webRoot.fitsSystemWindows = true
 
 
-        // 这里加载前端资源
+        TODO 这里加载前端资源 不部署服务器的话，让前端给静态文件放在asset文件夹，安卓直接加载就好
         binding.webRoot.loadUrl("file:android_asset/index.html")
 
         binding.webRoot.webViewClient = object : WebViewClient() {
