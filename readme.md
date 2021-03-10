@@ -20,6 +20,8 @@
       * [<strong>4.在JSBridge的配置文件声明处理器对应的请求协议</strong>](#4在jsbridge的配置文件声明处理器对应的请求协议)
       * [<strong>5.让前端开发人员调用一下</strong>](#5让前端开发人员调用一下)
 
+# 背景
+基于WebView（Android下是WebView，iOS下是WKWebView）控件加载H5页面，同时通过框架提供的接口，实现H5使用对设备摄像头、文件系统等设备能力的调用。
 # 方案架构
 
 [架构方案](https://github.com/BAByte/MVVMDemo)
@@ -30,7 +32,7 @@
 
 ## WebView和Native的基本调用方式
 
-1.Js通过native挂载的homeViewModel对象调用native方法。
+1.Js通过native挂载的homeViewModel（叫什么都行）对象调用native方法。
 
 2.native通过方法返回值返回数据或通过调用JS方法传参达到返回数据的目的。
 
