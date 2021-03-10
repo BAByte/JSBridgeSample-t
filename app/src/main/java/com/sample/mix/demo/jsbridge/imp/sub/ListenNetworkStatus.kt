@@ -53,9 +53,7 @@ class ListenNetworkStatus : IJSSub {
             "",
             GetNetworkStatus(isConnect && isAvailable && canBrowseBaidu())
         )
-        Logger.d(">>> NativeRepository ListenNetworkStatus publishFirst responseFirst = $responseFirst")
         JSBridge.onResponse(responseFirst) { value ->
-            Logger.d(">>> NativeRepository ListenNetworkStatus publishFirst callback = $value")
             if (TextUtils.isEmpty(value) || value == "null") {
                 GlobalScope.launch(Dispatchers.IO) {
                     delay(1000L)
@@ -82,7 +80,6 @@ class ListenNetworkStatus : IJSSub {
                         "",
                         GetNetworkStatus(canBrowseBaidu())
                     )
-                    Logger.d(">>> NativeRepository ListenNetworkStatus onAvailable response = $response")
                     JSBridge.onResponse(response, null)
                 }
 
@@ -95,7 +92,6 @@ class ListenNetworkStatus : IJSSub {
                         "",
                         GetNetworkStatus(canBrowseBaidu())
                     )
-                    Logger.d(">>> NativeRepository ListenNetworkStatus onLost response = $response")
                     JSBridge.onResponse(response, null)
                 }
 
@@ -108,7 +104,6 @@ class ListenNetworkStatus : IJSSub {
                         "",
                         GetNetworkStatus(false)
                     )
-                    Logger.d(">>> NativeRepository ListenNetworkStatus onUnavailable response = $response")
                     JSBridge.onResponse(response, null)
                 }
             })

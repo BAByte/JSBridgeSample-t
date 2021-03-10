@@ -19,7 +19,8 @@ object JSBridgeConfig {
         with(JSBridge) {
             //异步
             //sub
-            asyncRequestMap[ListenNetworkStatus.method] = ListenNetworkStatus()
+            //todo 需要前端接收该消息，否则会报错
+//            asyncRequestMap[ListenNetworkStatus.method] = ListenNetworkStatus()
 
             //request
             asyncRequestMap["$ASYNC_TYPE.toSetNetwork"] = ToSetNetwork()
