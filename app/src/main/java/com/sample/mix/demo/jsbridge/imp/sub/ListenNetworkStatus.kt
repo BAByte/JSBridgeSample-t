@@ -43,17 +43,19 @@ class ListenNetworkStatus : IJSSub {
             connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
         val ethInfo: NetworkInfo =
             connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET)
-        val connect = wifiInfo.isConnected || ethInfo.isConnected
+        val isConnect = wifiInfo.isConnected || ethInfo.isConnected
+        val isAvailable = wifiInfo.isAvailable || ethInfo.isAvailable
         //如果是断网启动，先上报一次网络状态
         val responseFirst = JSResponse(
             method,
             "",
             SUCCESS_CODE,
             "",
-            GetNetworkStatus(connect)
+            GetNetworkStatus(isConnect && isAvailable && canBrowseBaidu())
         )
+        Logger.d(">>> NativeRepository ListenNetworkStatus publishFirst responseFirst = $responseFirst")
         JSBridge.onResponse(responseFirst) { value ->
-            //如果前端没有回复则重试
+            Logger.d(">>> NativeRepository ListenNetworkStatus publishFirst callback = $value")
             if (TextUtils.isEmpty(value) || value == "null") {
                 GlobalScope.launch(Dispatchers.IO) {
                     delay(1000L)
@@ -78,8 +80,9 @@ class ListenNetworkStatus : IJSSub {
                         "",
                         SUCCESS_CODE,
                         "",
-                        GetNetworkStatus(true)
+                        GetNetworkStatus(canBrowseBaidu())
                     )
+                    Logger.d(">>> NativeRepository ListenNetworkStatus onAvailable response = $response")
                     JSBridge.onResponse(response, null)
                 }
 
@@ -90,10 +93,37 @@ class ListenNetworkStatus : IJSSub {
                         "",
                         SUCCESS_CODE,
                         "",
+                        GetNetworkStatus(canBrowseBaidu())
+                    )
+                    Logger.d(">>> NativeRepository ListenNetworkStatus onLost response = $response")
+                    JSBridge.onResponse(response, null)
+                }
+
+                override fun onUnavailable() {
+                    super.onUnavailable()
+                    val response = JSResponse(
+                        method,
+                        "",
+                        SUCCESS_CODE,
+                        "",
                         GetNetworkStatus(false)
                     )
+                    Logger.d(">>> NativeRepository ListenNetworkStatus onUnavailable response = $response")
                     JSBridge.onResponse(response, null)
                 }
             })
+    }
+
+    private fun canBrowseBaidu(): Boolean {
+        return try {
+            val runtime = Runtime.getRuntime()
+            val process = runtime.exec("ping -c 3 www.baidu.com")
+            val result = process.waitFor()
+            // 0 = 可以访问 ， 1 = 需要认证 ， 2 = 没有网络连接
+            result == 0
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
     }
 }
