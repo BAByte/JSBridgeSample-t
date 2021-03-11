@@ -111,6 +111,8 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
                 super.onPageFinished(view, url)
             }
         }
+        //打开webview的调试模式
+        WebView.setWebContentsDebuggingEnabled(true)
     }
 
     override fun onDestroy() {
