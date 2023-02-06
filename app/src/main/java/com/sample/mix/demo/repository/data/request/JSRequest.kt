@@ -13,7 +13,7 @@ data class JSRequest<T>(
     /**
      * 用于区分请求
      */
-    val requestId:String,
+    val requestId:String?,
 
     /**
      * 前端带过来的参数

@@ -11,6 +11,7 @@ object JSBridgeConfig {
     //状态码
     const val SUCCESS_CODE = "000000"
     const val UNKNOWN_ERROR_CODE = "999999"
+    const val WEB_NOT_INIT_CALLBACK_MS = "null"
 
     //js回调名称
     var CALL_BACK_NAME = "JSBridgeReceiveMessage"

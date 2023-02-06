@@ -6,9 +6,9 @@ import android.net.Network
 import android.net.NetworkInfo
 import android.net.NetworkRequest
 import android.os.Build
-import android.text.TextUtils
 import androidx.annotation.Keep
 import com.sample.mix.demo.App
+import com.sample.mix.demo.jsbridge.IJSPublish
 import com.sample.mix.demo.jsbridge.IJSSub
 import com.sample.mix.demo.jsbridge.JSBridge
 import com.sample.mix.demo.jsbridge.JSBridgeConfig.SUCCESS_CODE
@@ -19,9 +19,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /**
-* 监听网络状态
-*/
-class ListenNetworkStatus : IJSSub {
+ * 监听网络状态,即是发布者，也是观察者
+ */
+class ListenNetworkStatus : IJSSub, IJSPublish {
     companion object {
         const val method = "sub.listenNetworkStatus"
     }
@@ -29,7 +29,7 @@ class ListenNetworkStatus : IJSSub {
     @Keep
     data class GetNetworkStatus(val connect: Boolean)
 
-    override fun onRequest(params: String) {
+    override fun onEvent(params: String) {
         //安卓7以上可用
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             publishFirst()
@@ -48,13 +48,13 @@ class ListenNetworkStatus : IJSSub {
         //如果是断网启动，先上报一次网络状态
         val responseFirst = JSResponse(
             method,
-            "",
+            null,
             SUCCESS_CODE,
-            "",
+            null,
             GetNetworkStatus(isConnect && isAvailable && canBrowseBaidu())
         )
-        JSBridge.onResponse(responseFirst) { value ->
-            if (TextUtils.isEmpty(value) || value == "null") {
+        JSBridge.publish2JS(responseFirst) { value ->
+            if (JSBridge.isEffectiveResult(value)) {
                 GlobalScope.launch(Dispatchers.IO) {
                     delay(1000L)
                     publishFirst()
@@ -75,36 +75,36 @@ class ListenNetworkStatus : IJSSub {
                     super.onAvailable(network)
                     val response = JSResponse(
                         method,
-                        "",
+                        null,
                         SUCCESS_CODE,
-                        "",
+                        null,
                         GetNetworkStatus(canBrowseBaidu())
                     )
-                    JSBridge.onResponse(response, null)
+                    JSBridge.publish2JS(response, null)
                 }
 
                 override fun onLost(network: Network) {
                     super.onLost(network)
                     val response = JSResponse(
                         method,
-                        "",
+                        null,
                         SUCCESS_CODE,
-                        "",
+                        null,
                         GetNetworkStatus(canBrowseBaidu())
                     )
-                    JSBridge.onResponse(response, null)
+                    JSBridge.publish2JS(response, null)
                 }
 
                 override fun onUnavailable() {
                     super.onUnavailable()
                     val response = JSResponse(
                         method,
-                        "",
+                        null,
                         SUCCESS_CODE,
-                        "",
+                        null,
                         GetNetworkStatus(false)
                     )
-                    JSBridge.onResponse(response, null)
+                    JSBridge.publish2JS(response, null)
                 }
             })
     }

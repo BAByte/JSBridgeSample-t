@@ -1,5 +1,5 @@
 package com.sample.mix.demo.jsbridge
 
 interface IJSSub {
-    fun onRequest(params: String)
+    fun onEvent(params: String)
 }

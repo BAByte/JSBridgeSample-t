@@ -1,27 +1,37 @@
-[toc]
+* [2023.2.6更新](#202326更新)
+* [背景](#背景)
+* [方案架构](#方案架构)
+* [JS与Android Native通信方案](#js与android-native通信方案)
+  * [WebView和Native的基本调用方式](#webview和native的基本调用方式)
+  * [通信图](#通信图)
+* [JSBridge Android 类图](#jsbridge-android-类图)
+* [JSBridge目录树](#jsbridge目录树)
+* [依赖库](#依赖库)
+* [相关类介绍](#相关类介绍)
+  * [`<strong>`JSRequest `</strong>`](#jsrequest)
+  * [`<strong>`JSResponse `</strong>`](#jsresponse)
+  * [`<strong>`JSBridge `</strong>`](#jsbridge)
+  * [`<strong>`IJSAsyncRequest `</strong>`](#ijsasyncrequest)
+  * [`<strong>`IJSSyncRequest `</strong>`](#ijssyncrequest)
+  * [`<strong>`IJSSub `</strong>`](#ijssub)
+  * [`<strong>`JSBridgeConfig `</strong>`](#jsbridgeconfig)
+* [使用示例](#使用示例)
+  * [`<strong>`1.初始化JSBridge `</strong>`](#1初始化jsbridge)
+  * [`<strong>`2.定义    @JavascriptInterface接口注入到webview `</strong>`](#2定义----javascriptinterface接口注入到webview)
+  * [`<strong>`注入接口到webview `</strong>`](#注入接口到webview)
+  * [`<strong>`3.根据协议实现处理器 `</strong>`](#3根据协议实现处理器)
+  * [`<strong>`4.在JSBridge的配置文件声明处理器对应的请求协议 `</strong>`](#4在jsbridge的配置文件声明处理器对应的请求协议)
+  * [`<strong>`5.让前端开发人员调用一下 `</strong>`](#5让前端开发人员调用一下)
 
-   * [方案架构](#方案架构)
-   * [协议](#协议)
-   * [JSBridge目录树](#jsbridge目录树)
-   * [依赖库](#依赖库)
-   * [相关类介绍](#相关类介绍)
-      * [<strong>JSRequest</strong>](#jsrequest)
-      * [<strong>JSResponse</strong>](#jsresponse)
-      * [<strong>JSBridge</strong>](#jsbridge)
-      * [<strong>IJSAsyncRequest</strong>](#ijsasyncrequest)
-      * [<strong>IJSSyncRequest</strong>](#ijssyncrequest)
-      * [<strong>IJSSub</strong>](#ijssub)
-      * [<strong>JSBridgeConfig</strong>](#jsbridgeconfig)
-   * [使用示例](#使用示例)
-      * [<strong>1.初始化JSBridge</strong>](#1初始化jsbridge)
-      * [<strong>2.定义    @JavascriptInterface接口注入到webview</strong>](#2定义----javascriptinterface接口注入到webview)
-      * [<strong>注入接口到webview</strong>](#注入接口到webview)
-      * [<strong>3.根据协议实现处理器</strong>](#3根据协议实现处理器)
-      * [<strong>4.在JSBridge的配置文件声明处理器对应的请求协议</strong>](#4在jsbridge的配置文件声明处理器对应的请求协议)
-      * [<strong>5.让前端开发人员调用一下</strong>](#5让前端开发人员调用一下)
+# 2023.2.6更新
+
++ 新增native调用JS方法的接口，具体例子在 com.sample.mix.demo.repository.impl.NativeRepository.getUserNameFromJS()
++ 优化JSBriage类的内部逻辑
 
 # 背景
+
 基于WebView（Android下是WebView，iOS下是WKWebView）控件加载H5页面，同时通过框架提供的接口，实现H5使用对设备摄像头、文件系统等设备能力的调用。
+
 # 方案架构
 
 [架构方案](https://github.com/BAByte/MVVMDemo)
@@ -70,13 +80,11 @@
 
 ![image](https://github.com/BAByte/pic/blob/master/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_dadeb328-121c-4a74-aa46-867a76049a26.png?raw=true)
 
-
-
 # JSBridge目录树
 
 比较简单就不做介绍了
 
-~~~kotlin
+```kotlin
 ├── jsbridge
 │   ├── IJSAsyncRequest.kt
 │   ├── IJSSub.kt
@@ -91,21 +99,21 @@
 │       │       └── GetVersionCode.kt
 │       └── sub
 │           └── ListenNetworkStatus.kt
-~~~
+```
 
 # 依赖库
 
-~~~kotlin
+```kotlin
 implementation "com.google.code.gson:gson:2.8.6"
-~~~
+```
 
 # 相关类介绍
 
-## **JSRequest<T>**
+## **JSRequest `<T>`**
 
 请求协议对应实体类：使用泛型区别不同的业务对应的数据结构
 
-~~~kotlin
+```kotlin
 @Keep
 data class JSRequest<T>(
     /**
@@ -124,15 +132,13 @@ data class JSRequest<T>(
      */
     val params:T
 )
-~~~
+```
 
-
-
-## **JSResponse<T>**
+## **JSResponse `<T>`**
 
 回复协议对应实体类：使用泛型区别不同的业务对应的数据结构
 
-~~~kotlin
+```kotlin
 @Keep
 data class JSResponse<T>(
     /**
@@ -155,9 +161,7 @@ data class JSResponse<T>(
     val message:String,
     val data: T
 )
-~~~
-
-
+```
 
 ## **JSBridge**
 
@@ -167,44 +171,38 @@ data class JSResponse<T>(
 
 异步请求处理器接口，也叫消息的订阅者，处理前端某个请求的类都实现自该接口，该类型的订阅者通过JSBridge的方法回复JS
 
-~~~kotlin
+```kotlin
 interface IJSAsyncRequest {
     fun onRequest(params: String)
 }
-~~~
-
-
+```
 
 ## **IJSSyncRequest**
 
 同步步请求处理器接口，也叫消息的订阅者，处理前端某个请求的类都实现自该接口。这类型的订阅者直接通过返回值返回数据给JS
 
-~~~kotlin
+```kotlin
 interface IJSSyncRequest {
   	//通过返回值返回数据给JS
     fun onRequest(params: String): JSResponse<Any>
 }
-~~~
-
-
+```
 
 ## **IJSSub**
 
 推送消息处理器接口，也叫消息的订阅者，主动推送数据给JS，传递数据的类实现都实现自该接口，该类型的订阅者通过JSBridge的方法回复JS
 
-~~~kotlin
+```kotlin
 interface IJSSub {
     fun onRequest(params: String)
 }
-~~~
-
-
+```
 
 ## **JSBridgeConfig**
 
 处理器与请求的关系表
 
-~~~kotlin
+```kotlin
 /**
  * 建立method与处理器的关系
  */
@@ -230,9 +228,7 @@ object JSBridgeConfig {
         }
     }
 }
-~~~
-
-
+```
 
 # 使用示例
 
@@ -240,7 +236,7 @@ object JSBridgeConfig {
 
 ## **1.初始化JSBridge**
 
-~~~kotlin
+```kotlin
     /**
      * 初始化
      */
@@ -248,26 +244,26 @@ object JSBridgeConfig {
         JSBridge.setWebClient(webViewClient)
         JSBridge.startHandler()
     }
-~~~
+```
 
 ## **2.定义    @JavascriptInterface接口注入到webview**
 
-~~~kotlin
-class JSBridgeModel{    
+```kotlin
+class JSBridgeModel{  
 		@JavascriptInterface
     fun requestFromJS(requestJson: String): String {
        //具体实现使用JSBridge的方法
       return JSBridge.requestFromJS(requestJson)
     }
 }
-~~~
+```
 
 ## **注入接口到webview**
 
-~~~kotlin
+```kotlin
 //向前端注入对象
 webview.addJavascriptInterface(JSBridgeModel(), "JSBridgeModel")
-~~~
+```
 
 ## **3.根据协议实现处理器**
 
@@ -277,18 +273,18 @@ webview.addJavascriptInterface(JSBridgeModel(), "JSBridgeModel")
 
 请求
 
-~~~kotlin
+```kotlin
 {
     "method": "async.request.toSetNetwork",
     "requestId":"12313",
     "params": {
     }
 }
-~~~
+```
 
 回复：
 
-~~~kotlin
+```kotlin
 {
     "method": "response.getIotConnectStatus",
     "requestId":"12313",
@@ -297,11 +293,11 @@ webview.addJavascriptInterface(JSBridgeModel(), "JSBridgeModel")
     "data": {
     }
 }
-~~~
+```
 
 **处理器的实现**
 
-~~~kotlin
+```kotlin
 /**
  * 打开设置：
  * 获取参数 这里的例子是没有参数，如果需要：请给JSRequest或JSResponse传入对应的data class
@@ -334,11 +330,11 @@ class ToSetNetwork : IJSAsyncRequest, CoroutineScope by MainScope() {
         }
     }
 }
-~~~
+```
 
 ## **4.在JSBridge的配置文件声明处理器对应的请求协议**
 
-~~~kotlin
+```kotlin
 
 /**
  * 建立method与处理器的关系
@@ -360,7 +356,24 @@ object JSBridgeConfig {
         }
     }
 }
-~~~
+```
 
 ## **5.让前端开发人员调用一下**
 
+如果没有前端，可以用chrome的调试工具模拟前端调用：
+
++ 0.在初始化webview时，打开调试模式：
+
+```kotlin
+        //打开webview的调试模式，todo 注：线上环境不建议打开
+        WebView.setWebContentsDebuggingEnabled(true)
+```
+
++ 1在chrome地址栏输入:chrome://inspect 。   注：在edge是edge://inspect
++ 2.选择你的设备和应用并使用挂载在window上的java对象
+
+调到控制台执行如下代码：设备就会打开设置啦！
+
+```kotlin
+window.JSBridgeModel.requestFromJS(JSON.stringify(JSON.parse('{"method":"async.request.toSetNetwork","requestId":"12313","params": {}}')))
+```

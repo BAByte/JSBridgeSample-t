@@ -18,9 +18,9 @@ data class JSResponse<T>(
     /**
      * 用于区分请求
      */
-    val requestId:String,
+    val requestId:String?,
 
     val code:String,
-    val message:String,
+    val message:String?,
     val data: T
 )

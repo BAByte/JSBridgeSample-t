@@ -8,4 +8,5 @@ import android.webkit.WebView
 interface INativeRepository {
     fun requestFromJS(requestJson: String): String
     fun initJSBridge(webViewClient: WebView?)
+    suspend fun getUserNameFromJS(id: String): String
 }

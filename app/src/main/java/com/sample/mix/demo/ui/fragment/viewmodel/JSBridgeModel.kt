@@ -6,7 +6,7 @@ import android.webkit.WebView
 import androidx.lifecycle.AndroidViewModel
 import com.sample.mix.demo.repository.RepositoryLoader
 
-class JSBridgeModel constructor(val app: Application) : AndroidViewModel(app) {
+class JSBridgeModel constructor(app: Application) : AndroidViewModel(app) {
 
     @JavascriptInterface
     fun requestFromJS(requestJson: String): String {

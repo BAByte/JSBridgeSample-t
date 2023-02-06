@@ -15,7 +15,6 @@ import com.sample.mix.demo.R
 import com.sample.mix.demo.databinding.MainFragmentBinding
 import com.sample.mix.demo.ui.fragment.viewmodel.JSBridgeModel
 
-
 class MainFragment : BaseFragment<MainFragmentBinding>() {
     private val viewModel: JSBridgeModel by viewModels()
 
@@ -30,7 +29,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         viewModel.initClient(binding.webRoot)
         //向前端注入对象
         binding.webRoot.addJavascriptInterface(viewModel, "JSBridgeModel")
-        //硬件加速会导致滑动花屏
+        //硬件加速可能会导致滑动花屏
         binding.webRoot.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         binding.webRoot.setBackgroundColor(requireContext().resources.getColor(R.color.color_bg)) // 设置背景色
         val settings: WebSettings = binding.webRoot.settings
@@ -92,7 +91,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
 
 
 //        TODO("这里加载前端资源 不部署服务器的话，让前端给静态文件放在asset文件夹，安卓直接加载就好，当然你要放个https://baidu.com,也是可以的")
-        binding.webRoot.loadUrl("https://www.baidu.com")
+        binding.webRoot.loadUrl("https://www.vcg.com")
 
         binding.webRoot.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
@@ -111,7 +110,7 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
                 super.onPageFinished(view, url)
             }
         }
-        //打开webview的调试模式
+        //打开webview的调试模式，todo 注：线上环境不建议打开
         WebView.setWebContentsDebuggingEnabled(true)
     }
 
