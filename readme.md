@@ -58,7 +58,7 @@
 
 **WEB:预留**
 
-## 通信图
+## Native->JS的通信图
 
 ![image](https://github.com/BAByte/pic/blob/master/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_93be14ed-8c15-40b9-8228-10ae134aaef8.png?raw=true)
 
@@ -372,8 +372,7 @@ object JSBridgeConfig {
 + 1在chrome地址栏输入:chrome://inspect 。   注：在edge是edge://inspect
 + 2.选择你的设备和应用并使用挂载在window上的java对象
 
-调到控制台执行如下代码：设备就会打开设置啦！
-
 ```kotlin
+//调到控制台执行如下代码：设备就会打开设置啦！
 window.JSBridgeModel.requestFromJS(JSON.stringify(JSON.parse('{"method":"async.request.toSetNetwork","requestId":"12313","params": {}}')))
 ```
